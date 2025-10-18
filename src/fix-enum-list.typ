@@ -419,7 +419,11 @@ Helper methods for fixing and enhancing enum and list functionality.
 ) = context {
   item-level.update(push(enum))
   enum-numbering.update((numbering: it.numbering, full: it.full))
-  let cur = 0
+  let cur = if it.has("start") and it.start != none {
+    it.start
+  } else {
+    1
+  }
   let numbers = ()
   for i in range(it.children.len()) {
     let child = it.children.at(i)
@@ -427,8 +431,8 @@ Helper methods for fixing and enhancing enum and list functionality.
       numbers.push(child.number)
       cur = child.number
     } else {
-      cur += 1
       numbers.push(cur)
+      cur += 1
     }
   }
   let parent-level = curr-parent-level.get()
